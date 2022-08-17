@@ -1,4 +1,4 @@
 # TheHangman
-Simple game in c++.
+Simple game in C++.
 
 To play just type make.
