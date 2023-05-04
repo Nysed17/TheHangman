@@ -5,85 +5,81 @@
 #include <cstdlib>
 #include <ctime>
 #include <unistd.h>
+#include "class.hpp"
 
 // global
 int lan;
 int isTrue = 0;
 
-class game{
-   public:
-      char wc;
-      std::string tempsecretword;
-      std::string secretword;
-      game(){
-         system("clear");
-         std::cout<<"The Hangman"<<"\n\n";
-      }
-      void choose(){
-         std::cout<<"Choose language:\n1] for english\n2] for italian\n\n";
-         std::cin>>lan;
-         if (lan == 1){
-            system("clear");
-            std::cout<<"The Hangman"<<"\n\n";
-            std::ifstream inFile("ENwords.txt");
-            if (inFile.is_open()){
-               std::string wordlist[102];
-               for(int i = 0; i < 102 ; ++i){
-                  inFile>>wordlist[i];
-               }
-               srand(time(0));
-               secretword = wordlist[rand()%102];
-               tempsecretword = secretword;
-               for (int i = 0 ; i < secretword.size() ; i++){
-                  tempsecretword[i] = '_';
-               }
-               //cout<< secretword << endl;
-               inFile.close(); 
-            }
-         } else if (lan == 2){
-            system("clear");
-            std::cout<<"The Hangman"<<"\n\n";
-            std::ifstream inFile("ITwords.txt");
-            if (inFile.is_open()){
-               std::string wordlist[102];
-               for(int i = 0; i < 102 ; ++i){
-                  inFile>>wordlist[i];
-               }
-               srand(time(0));
-               secretword = wordlist[rand()%102];
-               tempsecretword = secretword;
-               for (int i = 0 ; i < secretword.size() ; i++){
-                  tempsecretword[i] = '_';
-               }
-               //cout<< secretword << endl;
-               inFile.close(); 
-            }
+game::game(){
+   system("clear");
+   std::cout<<"The Hangman"<<"\n\n";
+}
+
+void game::choose(){
+   std::cout<<"Choose language:\n1] for english\n2] for italian\n\n";
+   std::cin>>lan;
+   if (lan == 1){
+      system("clear");
+      std::cout<<"The Hangman"<<"\n\n";
+      std::ifstream inFile("ENwords.txt");
+      if (inFile.is_open()){
+         std::string wordlist[102];
+         for(int i = 0; i < 102 ; ++i){
+            inFile>>wordlist[i];
          }
-      }
-      void change(){
-         std::cout<<"\n\n-> ";
-         std::cin>>c;
-         wc = c;
-      }
-      void check(){
-         game();
-         int count = 0;
+         srand(time(0));
+         secretword = wordlist[rand()%102];
+         tempsecretword = secretword;
          for (int i = 0 ; i < secretword.size() ; i++){
-            if (secretword.at(i) != c){
-               count++;
-            } else {
-               tempsecretword.at(i) = c;
-               count = 0;
-            }
+            tempsecretword[i] = '_';
          }
-         if (count == secretword.size()){
-            isTrue++;
-            count = 0;
-         }
+         //cout<< secretword << endl;
+         inFile.close(); 
       }
-   private:
-      char c;
-};
+   } else if (lan == 2){
+      system("clear");
+      std::cout<<"The Hangman"<<"\n\n";
+      std::ifstream inFile("ITwords.txt");
+      if (inFile.is_open()){
+         std::string wordlist[102];
+         for(int i = 0; i < 102 ; ++i){
+            inFile>>wordlist[i];
+         }
+         srand(time(0));
+         secretword = wordlist[rand()%102];
+         tempsecretword = secretword;
+         for (int i = 0 ; i < secretword.size() ; i++){
+            tempsecretword[i] = '_';
+         }
+         //cout<< secretword << endl;
+         inFile.close(); 
+      }
+   }
+}
+
+void game::change(){
+   std::cout<<"\n\n-> ";
+   std::cin>>c;
+   wc = c;
+}
+
+void game::check(){
+   game();
+   int count = 0;
+   for (int i = 0 ; i < secretword.size() ; i++){
+      if (secretword.at(i) != c){
+         count++;
+      } else {
+         tempsecretword.at(i) = c;
+         count = 0;
+      }
+   }
+   if (count == secretword.size()){
+      isTrue++;
+      count = 0;
+   }
+}
 
 game g;
 
@@ -96,7 +92,7 @@ void hangman(int& gameover){
       {' ',' ',' ','|',' ',' ',' ',' ',' ',' '},
       {' ',' ',' ','|',' ',' ',' ',' ',' ',' '},
       {' ','_','_','|','_','_',' ',' ',' ',' '} };
-   
+
    switch (isTrue){
       case 1:
          hang[2][8] = 'O';
